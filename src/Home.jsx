@@ -29,7 +29,7 @@ const Home = (props)=> {
             <div className="logo text-primary">NFX</div>
             <div></div>
             <LoginButton
-                    setLoginPage={props.setLoginPage} 
+                    setLoginPage={props.setLoginPage}
             />
         </div>
         <div className="search">
@@ -41,7 +41,7 @@ const Home = (props)=> {
                 <img src={SearchIcon} alt="search" onClick={()=>{
                     searchMovies(searchTerm);
                 }}/>
-            </div>
+        </div>
         {/* {movies?.length > 0 ? (
         <div className="container">
           {movies.map((movie) => (

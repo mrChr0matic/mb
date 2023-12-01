@@ -10,7 +10,7 @@ const MovieKard=({ movie: { imdbID, Year, Poster, Title, Type } })=>{
           </div>
           <div className='absolute bottom-0 right-0 left-0 px-5 py-4 bg-zinc-600 group-hover:bg-transparent ease-in-out duration-500'>
             <span className='text-transform: uppercase text-sm'>{Type}</span>
-            <h3 className="text-orange-200 whitespace-normal">{Title}</h3>
+            <h3 className="text-orange-200 whitespace-normal">{Title.length>23?Title.substring(0,18)+"...":Title}</h3>
           </div>
         </div>
       </>

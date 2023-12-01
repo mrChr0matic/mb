@@ -8,3 +8,36 @@ body {
 {
     display:flex;
 }
+
+.searchResult
+{
+    padding:10px;
+    display:flex;
+    align-items: center;
+    margin-top:10%;
+    margin-left:20%;
+    margin-right:20%;
+}
+
+.movieImg
+{
+    margin:1%;
+    height:150px;
+}
+
+.movieImage
+{
+    height:150px;
+}
+
+.movieDesc
+{
+    margin:3%;
+    width:auto;
+}
+
+.search
+{
+    margin-left:10%;
+    margin-right:10%;
+}

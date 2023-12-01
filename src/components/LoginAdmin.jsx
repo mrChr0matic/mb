@@ -7,11 +7,11 @@ const Login = (props)=>
         props.setLoginPage(false);
         props.setLoginAdminPage(false);
     }
-
+    
     const ToggleAdmin = () =>
     {
-        props.setLoginPage(false);
-        props.setLoginAdminPage(true);
+        props.setLoginPage(true);
+        props.setLoginAdminPage(false);
     }
 
     return (
@@ -66,8 +66,8 @@ const Login = (props)=>
                 </div>
 
                 <div className="mt-2 text-center text-sm text-slate-600">
-                    Are you an admin?
-                    <p onClick={ToggleAdmin} className="font-medium text-red-700 hover:text-red-500">Sign in as admin</p>
+                    Are you a user?
+                    <span><p onClick={ToggleAdmin} className="font-medium text-red-700 hover:text-red-500">Sign in as user</p></span>
                 </div>
             </div>
         </div>

@@ -239,3 +239,8 @@ h1 {
     grid-template-columns: 10% 80% 10%;
     width:100%;
 }
+
+.inputText
+{
+    color:black !important;
+}
