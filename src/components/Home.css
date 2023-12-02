@@ -13,7 +13,6 @@
 }
 
 body {
-  font-family: var(--font-roboto);
   background-color: #212426;
 }
 
@@ -175,7 +174,6 @@ h1 {
 
 .movie div:nth-of-type(3) h3 {
   margin-top: 1px;
-  font-family: "Roboto Slab", serif;
   color: #f9d3b4;
 }
 

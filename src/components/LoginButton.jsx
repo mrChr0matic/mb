@@ -9,9 +9,8 @@ const LoginButton= (props)=>{
 
     return(
       <>
-      <div className="flex">
-        <button className="m-2 px-4 py-2 text-lg rounded-lg bg-orange-600 border-2 text-white  border-orange-600 transition-transform transform hover:scale-105 hover:bg-transparent hover:text-orange-600 ease-in-out duration-300" onClick={ToggleLogin}>Login</button>
-      </div></>
+        <button className="mx-2 p-0 px-2 text-md text-gblack rounded-full bg-red-600 border-2 w-[70px] h-[40px] border-red-600 transition-transform transform hover:scale-105 hover:bg-transparent hover:text-red-600 ease-in-out duration-300" onClick={ToggleLogin}>Login</button>
+        </>
   
     )
   }

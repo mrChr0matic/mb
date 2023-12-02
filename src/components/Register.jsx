@@ -7,11 +7,11 @@ const Login = (props)=>
         props.setLoginPage(false);
         props.setLoginAdminPage(false);
     }
-    
+
     const ToggleAdmin = () =>
     {
-        props.setLoginPage(true);
-        props.setLoginAdminPage(false);
+        props.setLoginPage(false);
+        props.setLoginAdminPage(true);
     }
 
     return (
@@ -37,13 +37,17 @@ const Login = (props)=>
 
                 <div className="text-center">
                     <p className="mb-6 text-2xl font-semibold leading-5 text-white">
-                        Login
+                        Register
                     </p>
                 </div>
 
 
                 <form className="w-full">
-                <label for="username" className="sr-only">Username</label>
+                    <label for="email" className="sr-only">Email address</label>
+                    <input name="email" type="email" autocomplete="email" required=""
+                        className="inputText block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-black focus:ring-offset-1"
+                        placeholder="Email Address" />
+                    <label for="username" className="sr-only">Username</label>
                     <input name="username" type="text" required=""
                         className="inputText mt-2 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-black focus:ring-offset-1"
                         placeholder="Username" />
@@ -61,13 +65,13 @@ const Login = (props)=>
                 </form>
 
                 <div className="mt-6 text-center text-sm text-slate-600">
-                    Don't have an account?
-                    <a href="/signup" className="font-medium text-red-700 hover:text-red-500">Sign up</a>
+                    Already have an account?
+                    <a href="/signup" className="font-medium text-red-700 hover:text-red-500">Sign in</a>
                 </div>
 
                 <div className="mt-2 text-center text-sm text-slate-600">
-                    Are you a user?
-                    <span><p onClick={ToggleAdmin} className="font-medium text-red-700 hover:text-red-500">Sign in as user</p></span>
+                    Are you an admin?
+                    <p onClick={ToggleAdmin} className="font-medium text-red-700 hover:text-red-500">Sign in as admin</p>
                 </div>
             </div>
         </div>
