@@ -2,9 +2,34 @@ import React,{ useState, useEffect } from 'react';
 import './components/Home.css';
 import "./App.css";
 import Slider from './components/Slider.jsx';
+import Header from './components/Header.jsx';
+import axios from "axios"
 
-
+var topRated=[];
 const API = "http://www.omdbapi.com?apikey=b6003d8a";
+
+function customSorted(obj){
+    let data = JSON.stringify({
+      ...obj
+    });
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://moviebase-jz8c.onrender.com/movies/find/custom/',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+    };
+    axios.request(config)
+        .then((response)=>{
+            console.log(response.data);
+            topRated = response.data;
+        })
+        .catch((error)=>{
+            return [];
+        })
+}
 
 const moviesTemp=[{
     "Poster":"https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_SX300.jpg",
@@ -77,82 +102,6 @@ const moviesTemp=[{
     "imdbID": "tt9362930"
   }
 ];
-
-
-
-
-
-const topRated=[{
-    "Poster":"https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_SX300.jpg",
-    "Title":"The Shawshank Redemption",
-    "Type":"Movie",
-    "Year":"1994",
-    "imdbID": "tt0111161"
-  },
-  {
-    "Poster":"https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
-    "Title":"The Godfather",
-    "Type":"Movie",
-    "Year":"1972",
-    "imdbID": "tt0068646"
-  },
-  {
-    "Poster":"https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg",
-    "Title":"The Dark Knight",
-    "Type":"Movie",
-    "Year":"2008",
-    "imdbID": "tt0468569"
-  },
-  {
-    "Poster":"https://m.media-amazon.com/images/M/MV5BNDE4OTMxMTctNmRhYy00NWE2LTg3YzItYTk3M2UwOTU5Njg4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-    "Title":"Schindler's List",
-    "Type":"Movie",
-    "Year":"1993",
-    "imdbID": "tt0108052"
-  },
-  {
-    "Poster":"https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
-    "Title":"Pulp Fiction",
-    "Type":"Movie",
-    "Year":"1994",
-    "imdbID": "tt0110912"
-  },
-  {
-    "Poster":"https://m.media-amazon.com/images/M/MV5BNWIwODRlZTUtY2U3ZS00Yzg1LWJhNzYtMmZiYmEyNmU1NjMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-    "Title":"Forrest Gump",
-    "Type":"Movie",
-    "Year":"1994",
-    "imdbID": "tt0109830"
-  },
-  {
-    "Poster":"https://m.media-amazon.com/images/M/MV5BNDIzNDU0YzEtYzE5Ni00ZjlkLTk5ZjgtNjM3NWE4YzA3Nzk3XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_SX300.jpg",
-    "Title":"Fight Club",
-    "Type":"Movie",
-    "Year":"1999",
-    "imdbID": "tt0137523"
-  },
-  {
-    "Poster":"https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-    "Title":"Inception",
-    "Type":"Movie",
-    "Year":"2010",
-    "imdbID": "tt1375666"
-  },
-  {
-    "Poster":"https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-    "Title":"The Matrix",
-    "Type":"Movie",
-    "Year":"1999",
-    "imdbID": "tt0133093"
-  }
-];
-
-
-
-
-
-
-
 
 
 const watchList=[{
@@ -306,8 +255,6 @@ const comingSoon=[{
 
 const Home = (props)=> {
     const [movies, setMovies] = useState([]);
-    console.log(movies);
-    const [searchTerm, setSearchTerm]=useState('');
     useEffect(() => {
         searchMovies("Batman");
     }, []);
@@ -318,9 +265,17 @@ const Home = (props)=> {
         setMovies(data.Search);
     };
 
+    if(topRated.length === 0)
+    {
+        customSorted({"userRating":"desc"})
+    }
+
+    console.log(topRated);
+
   
   return(
     <>
+    <Header />
     <div className="app font-medium ">  
 
         <div className="homeSlider Trending">
@@ -341,7 +296,7 @@ const Home = (props)=> {
             <h2 className="homeSliderText text-4xl">Top Rated</h2>
         </div>
         <Slider
-            movies={topRated}
+            movies={watchList}
         />
         
         <div className="homeSlider History">
@@ -362,7 +317,7 @@ const Home = (props)=> {
             <h2 className="homeSliderText text-4xl">Editor's Choice</h2>
         </div>
         <Slider
-            movies={topRated}
+            movies={watchList}
         />
     </div>
     </>

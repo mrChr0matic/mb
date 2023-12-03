@@ -2,16 +2,25 @@ import React from "react";
 
 const Login = (props)=>
 {
-    const ToggleLogin = () =>
+    const Close = () =>
     {
         props.setLoginPage(false);
         props.setLoginAdminPage(false);
+        props.setRegisterPage(false);
     }
 
     const ToggleAdmin = () =>
     {
         props.setLoginPage(false);
         props.setLoginAdminPage(true);
+        props.setRegisterPage(false);
+    }
+
+    const ToggleLogin = () =>
+    {
+        props.setLoginPage(true);
+        props.setLoginAdminPage(false);
+        props.setRegisterPage(false);
     }
 
     return (
@@ -21,7 +30,7 @@ const Login = (props)=>
     <div className="relative p-4 w-full max-w-md h-full md:h-auto">
 
         <div className="relative bg-zinc-900 rounded-lg shadow">
-            <button type="button" onClick={ToggleLogin}
+            <button type="button" onClick={Close}
                 className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-red-700 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center popup-close"><svg
                     aria-hidden="true" className="w-5 h-5" fill="#c6c7c7" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +75,7 @@ const Login = (props)=>
 
                 <div className="mt-6 text-center text-sm text-slate-600">
                     Already have an account?
-                    <a href="/signup" className="font-medium text-red-700 hover:text-red-500">Sign in</a>
+                    <p onClick={ToggleLogin} className="font-medium text-red-700 hover:text-red-500">Sign in</p>
                 </div>
 
                 <div className="mt-2 text-center text-sm text-slate-600">

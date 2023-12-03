@@ -1,9 +1,11 @@
 import React from "react";
+import Header from "./Header";
 
 const CreateMovie = ()=>
 {
     return (
         <div>
+            <Header />
             <section class="">
                 <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
                     <h2 class="mb-4 text-3xl font-bold text-gray-900 dark:text-white">Delete movie</h2>

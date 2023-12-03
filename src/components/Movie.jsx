@@ -1,4 +1,5 @@
-import React,{ useState, useEffect } from 'react';
+import React,{ useState } from 'react';
+import Header from './Header';
 import '../App.css';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
@@ -85,6 +86,7 @@ const Movie = ()=> {
   const [value, setValue] = useState(5);
   return(
     <> 
+      <Header />
       <img src={movie.poster} alt="" className="absolute bd h-[590px] object-cover top-[0px]"/>
       <div className="grid h-[450px] w-full grid-rows-5 grid-cols-12 grid-flow-col gap-4 mb-3 text-white"  >
         <div className="row-span-5 col-span-4 sm:col-span-3 xl:col-span-2 p-2 flex items-start justify-center">
