@@ -12,6 +12,8 @@ const Slider=(props)=>{
       var slider = document.getElementById('sliderw');
       slider.scrollLeft = slider.scrollLeft + 500;
     };
+
+
     return(
       <>
         <div className='relative w-full flex items-center'>
@@ -21,6 +23,7 @@ const Slider=(props)=>{
             <MovieKard 
                 key={index}
                 movie={movie}
+                setMovie={props.setMovie}
             />)}
           </div>
           

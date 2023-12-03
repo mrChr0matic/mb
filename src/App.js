@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./App.css"
 import Home from "./Home";
 import Layout from "./Layout";
@@ -13,12 +13,20 @@ import CreateMovie from './components/VerifyUser';
 
 const App = () =>
 {
+    const [MovieISAN,setMovie] = useState("");
+
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route index element={<Home />}/>
-                    <Route path="movie" element={<Movie />} />
+                    <Route index element={
+                    <Home 
+                        setMovie={setMovie}
+                    />}/>
+                    <Route path="movie/:movie" element={
+                    <Movie
+                        MovieISAN={MovieISAN}
+                    />} />
                     <Route path="verify" element={<VerifyUser />} />
                     <Route path="addmovie" element={<CreateMovie />} />
                     <Route path="deletemovie" element={<DeleteMovie />} />

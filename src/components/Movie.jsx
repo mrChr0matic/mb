@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React, {useState} from 'react';
 import Header from './Header';
 import '../App.css';
 import Chip from '@mui/material/Chip';
@@ -9,12 +9,14 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/joy/Divider';
 import {red} from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
-import ScrollContainer from 'react-indiana-drag-scroll'
+import ScrollContainer from 'react-indiana-drag-scroll';
+import {useParams,useNavigate} from "react-router-dom";
+import axios from 'axios';
 // import { Rating } from "@material-tailwind/react";
  
 const URL="https://i.pinimg.com/474x/eb/68/de/eb68dea6b595d44c1f631e9233de0069.jpg"
 
-const movie={
+let movie={
   "ISAN": "123456789",
   "title": "Peaky Blinders",
   "poster": URL,
@@ -81,8 +83,36 @@ const ReviewCard= ({review})=>{
   </div>);
 }
 
-const Movie = ()=> {
-  
+const Movie = (props)=> {
+  const navigate=useNavigate();
+  const ISAN=useParams().movie;
+  console.log(ISAN);
+  if(ISAN!=movie.ISAN)
+  {
+    fetchMovie(ISAN);
+  }
+
+
+  function fetchMovie(ISAN){
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'http://localhost:5000/movies/find/'+ISAN,
+    };
+    axios.request(config)
+        .then((response) => {
+            movie = response.data;
+            console.log(movie);
+            navigate("/movie/"+ISAN);
+        })
+        .catch((error) => {
+            console.log(error);
+            return {};
+        });
+
+}
+
+
   const [value, setValue] = useState(5);
   return(
     <> 
@@ -97,7 +127,7 @@ const Movie = ()=> {
           <p className='text-xl sm:text-3xl pb-1'>{movie.title}</p>
           <ScrollContainer  className="flex row overflow-x-auto m-0 p-0 scrollbar-hide horizontal scroll-container">
             {movie.Genres.map((gen)=>{
-              return (<Chip label={gen} variant="outlined" color="error" className="mx-1"/>);
+              return (<Chip label={gen.name} variant="outlined" color="error" className="mx-1"/>);
             })}
           </ScrollContainer>
         </div>
@@ -105,7 +135,7 @@ const Movie = ()=> {
         <div className="row-span-4 col-span-8 sm:col-span-5 xl:col-span-7 p-2 relative text-start mt-2">
           <div className='overflow-y-auto font-light'>{movie.description}</div>
           <div className='absolute bottom-3 flex row  justify-center w-full p-2 text-xs'>
-            <button className="w-[200px] text-center bg-red-600 p-3 rounded-full hover:scale-105 hover:border hover:border-1 hover:border-red-700 hover:bg-transparent hover:text-red-600 mx-1 text-black transition ease-in-out duration-300" size="small" href={movie.trailer}>WATCH TRAILER</button>
+          <a href={movie.trailer}><button className="w-[200px] text-center bg-red-600 p-3 rounded-full hover:scale-105 hover:border hover:border-1 hover:border-red-700 hover:bg-transparent hover:text-red-600 mx-1 text-black transition ease-in-out duration-300" size="small" href={movie.trailer}>WATCH TRAILER</button></a>
             <button className="w-[200px] rounded-full hover:scale-105 border border-1 border-red-600 mx-1 text-red-600 font-semibold transition ease-in-out duration-300" size="small">Add to List</button>
           </div>
         </div>

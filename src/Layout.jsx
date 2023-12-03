@@ -9,6 +9,9 @@ const Layout = () => {
             <Link to="/"></Link>
           </li>
           <li>
+            <Link to="/movie"></Link>
+          </li>
+          <li>
             <Link to="/verify"></Link>
           </li>
           <li>
@@ -18,7 +21,7 @@ const Layout = () => {
             <Link to="/deletemovie"></Link>
           </li>
           <li>
-            <Link to="search"></Link>
+            <Link to="/search"></Link>
           </li>
         </ul>
       </nav>
