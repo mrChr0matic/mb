@@ -64,6 +64,56 @@ const StyledRating= styled(Rating)({
   },
 });
 
+
+function addHistory(ISAN,user){
+  let data=JSON.stringify({
+      ISAN: ISAN,
+  })
+  let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      headers:{
+          'authorization': user,
+          'Content-Type': 'application/json'
+      },
+      url: 'http://localhost:5000/user/history/',
+      data: data
+  };
+  axios.request(config)
+      .then((response)=>{
+          return response.data;   
+      })
+      .catch((error)=>{
+          console.log(error);
+          return {message:"errorHistoryAdd"};
+      })
+}
+
+
+function addWatchlist(ISAN,user){  //user ====> USER <userID>
+  let data=JSON.stringify({
+      ISAN: ISAN
+  })
+  let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      headers:{
+          'authorization': user,
+          'Content-Type': 'application/json'
+      },
+      url: 'http://localhost:5000/user/watchlist/',
+      data: data
+  };
+  axios.request(config)
+      .then((response)=>{
+          return response.data;   
+      })
+      .catch((error)=>{
+          console.log(error);
+          return {"message":"errorWatchlist"};
+      })
+}
+
 const StyledRatingred= styled(Rating)({
   '& .MuiRating-iconFilled': {
     color: '#EE4B2B',
@@ -86,10 +136,14 @@ const ReviewCard= ({review})=>{
 const Movie = (props)=> {
   const navigate=useNavigate();
   const ISAN=useParams().movie;
-  console.log(ISAN);
-  if(ISAN!=movie.ISAN)
+  if(ISAN!==movie.ISAN)
   {
     fetchMovie(ISAN);
+  }
+
+  if(props.userID!=="")
+  {
+    addHistory(ISAN,"USER "+props.userID)
   }
 
 
@@ -102,7 +156,6 @@ const Movie = (props)=> {
     axios.request(config)
         .then((response) => {
             movie = response.data;
-            console.log(movie);
             navigate("/movie/"+ISAN);
         })
         .catch((error) => {
@@ -112,11 +165,21 @@ const Movie = (props)=> {
 
 }
 
+const addToWatchList = () =>
+{
+  addWatchlist(ISAN,"USER "+props.userID);
+}
+
 
   const [value, setValue] = useState(5);
   return(
     <> 
-      <Header />
+      <Header
+        isAuthenticated={props.isAuthenticated}
+        setIsAuthenticated={props.setIsAuthenticated}
+        setIsAdmin={props.setIsAdmin}
+        setUserID={props.setUserID}
+      />
       <img src={movie.poster} alt="" className="absolute bd h-[590px] object-cover top-[0px]"/>
       <div className="grid h-[450px] w-full grid-rows-5 grid-cols-12 grid-flow-col gap-4 mb-3 text-white"  >
         <div className="row-span-5 col-span-4 sm:col-span-3 xl:col-span-2 p-2 flex items-start justify-center">
@@ -136,7 +199,7 @@ const Movie = (props)=> {
           <div className='overflow-y-auto font-light'>{movie.description}</div>
           <div className='absolute bottom-3 flex row  justify-center w-full p-2 text-xs'>
           <a href={movie.trailer}><button className="w-[200px] text-center bg-red-600 p-3 rounded-full hover:scale-105 hover:border hover:border-1 hover:border-red-700 hover:bg-transparent hover:text-red-600 mx-1 text-black transition ease-in-out duration-300" size="small" href={movie.trailer}>WATCH TRAILER</button></a>
-            <button className="w-[200px] rounded-full hover:scale-105 border border-1 border-red-600 mx-1 text-red-600 font-semibold transition ease-in-out duration-300" size="small">Add to List</button>
+            <button onClick={addToWatchList} className="w-[200px] rounded-full hover:scale-105 border border-1 border-red-600 mx-1 text-red-600 font-semibold transition ease-in-out duration-300" size="small">Add to List</button>
           </div>
         </div>
 

@@ -2,13 +2,13 @@ import { accordionSummaryClasses } from "@mui/joy";
 import axios from "axios";
 
 
-async function fetchMovie(ISAN){
+function fetchMovie(ISAN){
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
         url: 'https://moviebase-jz8c.onrender.com/movies/find/'+ISAN,
     };
-    await axios.request(config)
+    axios.request(config)
         .then((response) => {
             return response.data;
         })
@@ -19,15 +19,61 @@ async function fetchMovie(ISAN){
 
 }
 
+function getCastMovies(Name){
+    let data=JSON.stringify({
+        Name: Name
+    })
+    let config={
+        method:'post',
+        maxBodyLength: Infinity,
+        url: 'locahost:5000/movies/crew/find',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+    }
+    axios.request(config)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            console.log(error);
+            return {};
+        });
+}
+
+function getGenreMovies(Name){
+    let data=JSON.stringify({
+        name: Name
+    })
+    let config={
+        method:'post',
+        maxBodyLength: Infinity,
+        url: 'locahost:5000/genre/find',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+    }
+    axios.request(config)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            console.log(error);
+            return {};
+        });
+}
+
 async function fetchMultiple(searchType,searchItem){
     let data = JSON.stringify({
         searchType: searchType,
         searchItem: searchItem
     });
-    let config = {
+    let config = {  
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://moviebase-jz8c.onrender.com/movies/find/',
+        url: 'localhost:5000/movies/find/',
         headers: { 
           'Content-Type': 'application/json'
         },

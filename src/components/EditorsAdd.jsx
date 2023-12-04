@@ -1,11 +1,22 @@
 import React from "react";
 import Header from "./Header";
+import {useNavigate} from "react-router-dom";
 
-const CreateMovie = ()=>
+const CreateMovie = (props)=>
 {
+    const navigate=useNavigate();
+
+    if(!props.isAdmin)
+    {
+        navigate("/");
+    }
     return (
         <div>
-            <Header />
+            <Header
+            isAuthenticated={props.isAuthenticated}
+            setIsAuthenticated={props.setIsAuthenticated}
+            setIsAdmin={props.setIsAdmin}
+            />
             <section class="">
                 <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
                     <h2 class="mb-4 text-3xl font-bold text-gray-900 dark:text-white">Add movie</h2>

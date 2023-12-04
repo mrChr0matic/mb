@@ -6,7 +6,6 @@ const MovieKard=(props)=>{
   const navigate = useNavigate();
   
   const goToMovie = () => {
-    props.setMovie(props.movie.ISAN);
     navigate("/movie/"+props.movie.ISAN);
   }
 
@@ -19,7 +18,7 @@ const MovieKard=(props)=>{
           </div>
           <div className='absolute bottom-0 right-0 left-0 px-5 py-4 bg-zinc-600 group-hover:bg-transparent ease-in-out duration-500'>
             <span className='text-transform: uppercase text-sm'>Movie</span>
-            <h3 className="text-orange-200 whitespace-normal">{props.movie.title.length>23?props.movie.title.substring(0,18)+"...":props.movietitle}</h3>
+            <h3 className="text-orange-200 whitespace-normal">{props.movie.title.length>23?props.movie.title.substring(0,18)+"...":props.movie.title}</h3>
           </div>
         </div>
       </>

@@ -1,7 +1,44 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = (props)=>
 {
+    const navigate=useNavigate();
+    function adminLogin(adminID,password){
+        let data=JSON.stringify({
+            adminID: adminID,
+            password: password
+        })
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            url: 'http://localhost:5000/admin/login/',
+            data: data
+        };
+        axios.request(config)
+            .then((response)=>{
+                console.log(response);
+                props.setIsAuthenticated(true);
+                props.setIsAdmin(true);
+                props.setLoginAdminPage(false);
+                navigate("/");
+            })
+            .catch((error)=>{
+                console.log(error);
+                return {};
+            })
+    }
+
+    const loginAdmin = (event) =>
+    {
+        adminLogin(event.target[0].value,event.target[1].value)
+        event.preventDefault();
+    }
+
     const Close = () =>
     {
         props.setLoginPage(false);
@@ -51,7 +88,7 @@ const Login = (props)=>
                 </div>
 
 
-                <form className="w-full">
+                <form className="w-full" onSubmit={loginAdmin}>
                 <label for="username" className="sr-only">Admin username</label>
                     <input name="username" type="text" required=""
                         className="inputText mt-2 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-black focus:ring-offset-1"

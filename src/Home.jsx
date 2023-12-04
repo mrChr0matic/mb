@@ -1,10 +1,9 @@
-import React,{ useState, useEffect } from 'react';
+import React from 'react';
 import './components/Home.css';
 import "./App.css";
 import Slider from './components/Slider.jsx';
 import Header from './components/Header.jsx';
 import axios from "axios"
-
 
 var topRated=[];
 var Trending=[];
@@ -12,11 +11,50 @@ var watchList=[];
 var History=[];
 var upcoming=[];
 
-const API = "http://www.omdbapi.com?apikey=b6003d8a";
-
 topRatedfn({"adminRating":"desc"})
 TrendingFn({"userRating":"desc"});
  upcomingMovies({"release_date":"desc"});
+
+
+ function getWatchlist(user){
+  // console.log("hi");
+  let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      headers:{
+          'authorization': user,
+          'Content-Type': 'application/json'
+      },
+      url: 'http://localhost:5000/user/watchlist/',
+  };
+  axios.request(config)
+      .then((response)=>{
+          watchList=response.data;   
+      })
+      .catch((error)=>{
+          console.log(error);
+          return [];
+      })
+}
+function getHistory(user){
+  let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      headers:{
+          'authorization': user,
+          'Content-Type': 'application/json'
+      },
+      url: 'http://localhost:5000/user/history/',
+  };
+  axios.request(config)
+      .then((response)=>{
+          History=response.data;
+      })
+      .catch((error)=>{
+          console.log(error);
+          return [];
+      })
+}
 
 function topRatedfn(obj){
     let data = JSON.stringify({
@@ -55,6 +93,7 @@ function TrendingFn(obj){
   };
   axios.request(config)
       .then((response)=>{
+            console.log(response.data);
           Trending = response.data;
       })
       .catch((error)=>{
@@ -86,7 +125,6 @@ function upcomingMovies(obj){
           }
         }        
         upcoming=temp;
-        console.log(upcoming);
       })
       .catch((error)=>{
           return [];
@@ -95,21 +133,46 @@ function upcomingMovies(obj){
 
 
 const Home = (props)=> {
-    const [movies, setMovies] = useState([]);
-    useEffect(() => {
-        searchMovies("Batman");
-    }, []);
 
-    const searchMovies = async (title) => {
-        const response = await fetch(`${API}&s=${title}`);
-        const data = await response.json();
-        setMovies(data.Search);
-    };
+    if(props.userID !== "")
+    {
+      getWatchlist("USER "+props.userID)
+      getHistory("USER "+props.userID)
+    }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
   
   return(
     <>
-    <Header />
+    <Header
+      isAuthenticated={props.isAuthenticated}
+      setIsAuthenticated={props.setIsAuthenticated}
+      setIsAdmin={props.setIsAdmin}
+      setUserID={props.setUserID}
+    />
     <div className="app font-medium ">  
         
         <div className="homeSlider TopRated">
@@ -128,13 +191,26 @@ const Home = (props)=> {
             setMovie={props.setMovie}
         />
 
-      <div className="homeSlider Trending">
-            <h2 className="homeSliderText text-4xl">Trending</h2>
+        <div className="homeSlider upcoming">
+            <h2 className="homeSliderText text-4xl">Upcoming</h2>
         </div>
         <Slider
             movies={upcoming}
             setMovie={props.setMovie}
         />
+        {props.userID===""?<></>:<><div className="homeSlider watchList"><h2 className="homeSliderText text-4xl">WatchList</h2></div>
+        <Slider
+            movies={watchList}
+            setMovie={props.setMovie}
+        />
+        <div className="homeSlider watchList">
+            <h2 className="homeSliderText text-4xl">History</h2>
+        </div>
+        <Slider
+            movies={History}
+            setMovie={props.setMovie}
+        /></>}
+
     </div>
     </>
   );

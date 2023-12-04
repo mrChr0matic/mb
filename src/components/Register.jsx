@@ -1,6 +1,30 @@
 import React from "react";
+import axios from "axios";
 
-const Login = (props)=>
+function registerUser(Data){
+    let data=JSON.stringify({
+        ...Data
+    })
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        url: 'https://moviebase-jz8c.onrender.com/user/register/',
+        data: data
+    };
+    axios.request(config)
+        .then((response)=>{
+            return response.data;   //{"userID": userID}
+        })
+        .catch((error)=>{
+            console.log(error);
+            return {};
+        })
+}
+
+const Register = (props)=>
 {
     const Close = () =>
     {
@@ -91,4 +115,4 @@ const Login = (props)=>
     )
 }
 
-export default Login;
+export default Register;

@@ -1,15 +1,55 @@
 import React from "react";
 import Header from "./Header";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const CreateMovie = ()=>
+const DeleteMovie = (props)=>
 {
+    const navigate=useNavigate();
+
+    async function deleteMovie(ISAN,user){
+        let data=JSON.stringify({
+            ISAN: ISAN
+        });
+        let config={
+            method:'delete',
+            maxBodyLength:Infinity,
+            url: 'locahost:5000/movies/',
+            headers:{
+                'authorization': user,
+                'Content-Type': 'application/json'
+            },
+            data:data
+        }
+        await axios.request(config)
+            .then((response)=>{
+                console.log(response);
+                return response.data;
+            })
+            .catch((error)=>{
+                console.log("error");
+                return {"status":"couldnt_delete"};
+            })
+    }
+
+    const submitDeleteMovie=(event)=>
+    {
+        console.log(event);
+        deleteMovie(event.target[0].value,"ADMIN R001");
+        event.preventDefault();
+    }
+
     return (
         <div>
-            <Header />
+            <Header
+                isAuthenticated={props.isAuthenticated}
+                setIsAuthenticated={props.setIsAuthenticated}
+                setIsAdmin={props.setIsAdmin}
+            />
             <section class="">
                 <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
                     <h2 class="mb-4 text-3xl font-bold text-gray-900 dark:text-white">Delete movie</h2>
-                    <form action="#">
+                    <form action="#" onSubmit={submitDeleteMovie}>
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                             <div class="w-full">
                                 <label for="ISAN" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ISAN</label>
@@ -30,4 +70,4 @@ const CreateMovie = ()=>
     )
 }
 
-export default CreateMovie;
+export default DeleteMovie;

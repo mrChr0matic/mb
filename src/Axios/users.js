@@ -73,9 +73,8 @@ function adminLogin(adminID,password){
 }
 
 
-function addWatchlist(userID,ISAN,user){  //user ====> USER <userID>
+function addWatchlist(ISAN,user){  //user ====> USER <userID>
     let data=JSON.stringify({
-        userID: userID,
         ISAN: ISAN
     })
     let config = {
@@ -98,9 +97,8 @@ function addWatchlist(userID,ISAN,user){  //user ====> USER <userID>
         })
 }
 
-function deleteWatchlist(userID,ISAN,user){
+function deleteWatchlist(ISAN,user){
     let data=JSON.stringify({
-        userID: userID,
         ISAN: ISAN
     })
     let config = {
@@ -123,9 +121,9 @@ function deleteWatchlist(userID,ISAN,user){
         })
 }
 
-function getWatchlist(userID){
+function getWatchlist(user){
     let data=JSON.stringify({
-        userID: userID,
+        userID: user,
     })
     let config = {
         method: 'get',
@@ -147,4 +145,53 @@ function getWatchlist(userID){
         })
 }
 
-export {Regitser,userLogin};
+function addHistory(ISAN,user){
+    let data=JSON.stringify({
+        ISAN: ISAN,
+    })
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        headers:{
+            'authorization': user,
+            'Content-Type': 'application/json'
+        },
+        url: 'http://localhost:5000/user/history/',
+        data: data
+    };
+    axios.request(config)
+        .then((response)=>{
+            return response.data;   
+        })
+        .catch((error)=>{
+            console.log(error);
+            return {message:"errorHistoryAdd"};
+        })
+}
+
+function getHistory(user){
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        headers:{
+            'authorization': user,
+            'Content-Type': 'application/json'
+        },
+        url: 'http://localhost:5000/user/history/',
+    };
+    axios.request(config)
+        .then((response)=>{
+            return response.data;
+        })
+        .catch((error)=>{
+            console.log(error);
+            return [];
+        })
+}
+
+function addReview(ISAN, userID,Review,Rating){
+    let data=JSON.stringify({
+        
+    })
+}
+export {Register,userLogin};
