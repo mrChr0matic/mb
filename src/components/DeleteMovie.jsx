@@ -14,7 +14,7 @@ const DeleteMovie = (props)=>
         let config={
             method:'delete',
             maxBodyLength:Infinity,
-            url: 'locahost:5000/movies/',
+            url: 'http://localhost:5000/movies/',
             headers:{
                 'authorization': user,
                 'Content-Type': 'application/json'
@@ -27,25 +27,30 @@ const DeleteMovie = (props)=>
                 return response.data;
             })
             .catch((error)=>{
-                console.log("error");
+                console.log(error);
                 return {"status":"couldnt_delete"};
             })
     }
 
     const submitDeleteMovie=(event)=>
     {
-        console.log(event);
-        deleteMovie(event.target[0].value,"ADMIN R001");
+        if(props.isAdmin === false)
+        {
+            navigate("/");
+        }
+        deleteMovie(event.target[0].value,"ADMIN R100");
         event.preventDefault();
     }
 
     return (
         <div>
-            <Header
-                isAuthenticated={props.isAuthenticated}
-                setIsAuthenticated={props.setIsAuthenticated}
-                setIsAdmin={props.setIsAdmin}
-            />
+        <Header
+          isAuthenticated={props.isAuthenticated}
+          setIsAuthenticated={props.setIsAuthenticated}
+          isAdmin={props.isAdmin}
+          setIsAdmin={props.setIsAdmin}
+          setUserID={props.setUserID}
+        />
             <section class="">
                 <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
                     <h2 class="mb-4 text-3xl font-bold text-gray-900 dark:text-white">Delete movie</h2>

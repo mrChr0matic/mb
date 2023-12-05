@@ -1,9 +1,11 @@
 import React from "react";
 import axios from "axios";
 
-function registerUser(Data){
+function registerUser(userName,email,password){
     let data=JSON.stringify({
-        ...Data
+        userName: userName,
+        email: email,
+        password: password
     })
     let config = {
         method: 'post',
@@ -11,11 +13,12 @@ function registerUser(Data){
         headers:{
             'Content-Type': 'application/json'
         },
-        url: 'https://moviebase-jz8c.onrender.com/user/register/',
+        url: 'http://localhost:5000/user/register/',
         data: data
     };
     axios.request(config)
         .then((response)=>{
+            console.log(response);
             return response.data;   //{"userID": userID}
         })
         .catch((error)=>{
@@ -26,6 +29,13 @@ function registerUser(Data){
 
 const Register = (props)=>
 {
+    const submitRegistration=(event)=>
+    {
+        console.log(event);
+        registerUser(event.target[1].value,event.target[0].value,event.target[2].value);
+        event.preventDefault();
+    }
+
     const Close = () =>
     {
         props.setLoginPage(false);
@@ -75,7 +85,7 @@ const Register = (props)=>
                 </div>
 
 
-                <form className="w-full">
+                <form className="w-full" onSubmit={submitRegistration}>
                     <label for="email" className="sr-only">Email address</label>
                     <input name="email" type="email" autocomplete="email" required=""
                         className="inputText block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-black focus:ring-offset-1"

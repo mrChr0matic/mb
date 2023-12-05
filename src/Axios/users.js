@@ -1,9 +1,11 @@
 import axios from "axios";
 import { AccordionSummaryClasses } from "@mui/joy";
 
-function Register(Data){
+function Register(userName,password,email){
     let data=JSON.stringify({
-        ...Data
+        userName: userName,
+        email: email,
+        password: password
     })
     let config = {
         method: 'post',
@@ -11,7 +13,7 @@ function Register(Data){
         headers:{
             'Content-Type': 'application/json'
         },
-        url: 'https://moviebase-jz8c.onrender.com/user/register/',
+        url: 'http://localhost:5000/user/register/',
         data: data
     };
     axios.request(config)
@@ -35,7 +37,7 @@ function userLogin(userName,password){
         headers:{
             'Content-Type': 'application/json'
         },
-        url: 'https://moviebase-jz8c.onrender.com/user/login/',
+        url: 'http://localhost:5000/user/login/',
         data: data
     };
     axios.request(config)
@@ -189,9 +191,75 @@ function getHistory(user){
         })
 }
 
-function addReview(ISAN, userID,Review,Rating){
+function addVerification(userName,value,user){
     let data=JSON.stringify({
-        
+        val: value,
+        userName: userName
     })
+    let config={
+        method: 'put',
+        maxBodyLength: Infinity,
+        headers:{
+            'authorization': user,
+            'Content-Type': 'application/json'
+        },
+        url: 'http://localhost:5000/admin/verify/',
+        data: data
+    }
+    axios.request(config)
+        .then((response)=>{
+            return response.data;
+        })
+        .catch((error)=>{
+            console.log(error);
+            return {"verification" : "failure"};
+        })
+}
+
+
+
+function getEditorsChoice(adminID,ISAN){
+    let config={
+        method: 'get',
+        maxBodyLength: Infinity,
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        url: 'http://localhost:5000/editors/find',
+    }
+    axios.request(config)
+        .then((response)=>{
+            return response.data;
+        })
+        .catch((error)=>{
+            console.log(error);
+            return [];
+        })
+}
+
+function addReview(ISAN,review,rating,user){
+    let data=JSON.stringify({
+        ISAN: ISAN,
+        Review: review,
+        Rating: rating
+    })
+    let config={
+        method: 'post',
+        maxBodyLength: Infinity,
+        headers:{
+            'authorization':user,
+            'Content-Type': 'application/json'
+        },
+        url: 'http://localhost:5000/review/',
+        data: data
+    }
+    axios.request(config)
+        .then((response)=>{
+            return response.data;
+        })
+        .catch((error)=>{
+            console.log(error);
+            return {"status": "error_adding_review"};
+        })
 }
 export {Register,userLogin};

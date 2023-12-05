@@ -29,7 +29,7 @@ const Header = (props) =>
 
     return (
     <div>
-        <NavMobile />
+        {props.isAdmin===true?<NavMobile />:<></>}
         <div className="mt-[4%] grid grid-flow-row grid-rows-1 grid-cols-6 justify-items-center align-middle mb-3 w-full gap-4 hover:cursor-pointer">
             <div className="logo text-red-600 col-span-1 m-0" onClick={goHome}>
                 MB

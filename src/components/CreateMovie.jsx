@@ -5,22 +5,27 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 async function addMovie(values,user){
-    let data=values.stringify;
+    let data=JSON.stringify({
+        ...values
+    });
     let config={
         method: 'post',
         maxBodyLength:Infinity,
-        url: 'https://moviebase-jz8c.onrender.com/movies/',
+        url: 'http://localhost:5000/movies/',
         headers:{
             'authorization': user,
             'Content-Type': 'application/json'
         },
         data:data
     };
+    console.log("errorroor")
     await axios.request(config)
         .then((response)=>{
+            console.log(response);
             return {response};
         })
         .catch((error)=>{
+            console.log(error);
             return {};
         })
 }
@@ -36,16 +41,37 @@ const CreateMovie = (props)=>
             navigate("/");
         }
         console.log(event);
-        addMovie({},"ADMIN")
+        const d= new Date(event.target[1].value);
+        let Genres=[];
+        for(let i=9;i<event.target.length;i++){
+            if(event.target[i].id==="genre")
+                Genres.push({name: event.target[i].value});
+        }
+        Genres.pop();
+        const movie={
+            title: event.target[0].value,
+            release_date: d,
+            poster: event.target[3].value,
+            trailer:event.target[4].value,
+            adminRating: parseFloat(event.target[5].value),
+            userRating: parseFloat(event.target[6].value),
+            lang: event.target[7].value,
+            description: event.target[8].value,
+            Genres: Genres
+        }
+        console.log(movie)
+        addMovie(movie,"ADMIN R100")
         event.preventDefault();
     }
 
     return (
         <div>
             <Header
-                isAuthenticated={props.isAuthenticated}
-                setIsAuthenticated={props.setIsAuthenticated}
-                setIsAdmin={props.setIsAdmin}
+            isAuthenticated={props.isAuthenticated}
+            setIsAuthenticated={props.setIsAuthenticated}
+            isAdmin={props.isAdmin}
+            setIsAdmin={props.setIsAdmin}
+            setUserID={props.setUserID}
             />
             <section className="">
                 <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
@@ -71,6 +97,14 @@ const CreateMovie = (props)=>
                             <div>
                                 <label for="trailer" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Trailer link</label>
                                 <input type="text" name="trailer" id="trailer" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Trailer" required="" />
+                            </div> 
+                            <div>
+                                <label for="adminRating" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Admin Rating</label>
+                                <input type="text" name="adminRating" id="adminRating" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="adminRating" required="" />
+                            </div> 
+                            <div>
+                                <label for="userRating" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Rating</label>
+                                <input type="text" name="userRating" id="userRating" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="userRating" required="" />
                             </div> 
                             <div className="sm:col-span-2">
                                 <label for="language" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Language</label>

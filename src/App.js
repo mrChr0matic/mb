@@ -1,13 +1,3 @@
-//Reviews add
-//Admin functionality
-//Fix create and delete by tmrw with help of abishek
-//Order of history
-//admin login not working?
-//abishek must make a verify user
-//REVIEWS BRO WHERE ARE THE AXIOS FUNCTIONS
-//Register as well adgsjkmhksn hm
-
-
 import React, {useState} from 'react';
 import "./App.css"
 import Home from "./Home";

@@ -118,13 +118,14 @@ function upcomingMovies(obj){
       .then((response)=>{
         upcoming = response.data;
         let temp = [];
-        const cutoffDate = new Date("December 20, 2022");
+        const cutoffDate = new Date();
         for (let i = 0; i < upcoming.length; i++) {
           if (new Date(upcoming[i].release_date) >= cutoffDate) {
             temp.push(upcoming[i]);
           }
         }        
         upcoming=temp;
+        console.log(upcoming);  
       })
       .catch((error)=>{
           return [];
@@ -170,6 +171,7 @@ const Home = (props)=> {
     <Header
       isAuthenticated={props.isAuthenticated}
       setIsAuthenticated={props.setIsAuthenticated}
+      isAdmin={props.isAdmin}
       setIsAdmin={props.setIsAdmin}
       setUserID={props.setUserID}
     />

@@ -17,7 +17,7 @@ import axios from 'axios';
 const URL="https://i.pinimg.com/474x/eb/68/de/eb68dea6b595d44c1f631e9233de0069.jpg"
 
 let movie={
-  "ISAN": "123456789",
+  "ISAN": "12345678912312321",
   "title": "Peaky Blinders",
   "poster": URL,
   "trailer": "https://www.youtube.com/watch?v=oVzVdvGIC7U",
@@ -57,6 +57,8 @@ let movie={
   "Genres": ["Thriller","American","Vintage"],
 
 }; 
+
+
 
 const StyledRating= styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -120,13 +122,14 @@ const StyledRatingred= styled(Rating)({
   },
 });
 const ReviewCard= ({review})=>{
+  console.log(review);
   return (
   <div className="sm:w-[600px] w-full p-6 border border-spacing-1 border-gray-400 rounded-lg shadow m-5">
     <div className="flex items-center mb-4 relative">
       <Avatar className="" sx={{ bgcolor: red[500] }}>{review.user.userName[0]}</Avatar>
       <div className="inline-block m-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{review.user.userName}</div>
       <div className="inline-block m-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white absolute right-0">{review.Rating}/10</div>
-      <div className='p-0 m-0 flex items-center justify-center absolute right-20'><StyledRating name="read-only" value={movie.userRating/2} className="text-red-600" readOnly precision={0.1}/></div>
+      <div className='p-0 m-0 flex items-center justify-center absolute right-20'><StyledRating name="read-only" value={review.Rating/2} className="text-red-600" readOnly precision={0.1}/></div>
       
     </div>
     <p className="text-sm text-gray-400">{review.Review}</p>
@@ -134,17 +137,10 @@ const ReviewCard= ({review})=>{
 }
 
 const Movie = (props)=> {
+  
+const [value, setValue] = useState(5);
   const navigate=useNavigate();
-  const ISAN=useParams().movie;
-  if(ISAN!==movie.ISAN)
-  {
-    fetchMovie(ISAN);
-  }
-
-  if(props.userID!=="")
-  {
-    addHistory(ISAN,"USER "+props.userID)
-  }
+  const movieISAN=useParams().movie;
 
 
   function fetchMovie(ISAN){
@@ -156,6 +152,7 @@ const Movie = (props)=> {
     axios.request(config)
         .then((response) => {
             movie = response.data;
+            console.log(response.data);
             navigate("/movie/"+ISAN);
         })
         .catch((error) => {
@@ -165,23 +162,71 @@ const Movie = (props)=> {
 
 }
 
-const addToWatchList = () =>
-{
-  addWatchlist(ISAN,"USER "+props.userID);
+  if(movieISAN!==movie.ISAN)
+  {
+    fetchMovie(movieISAN);
+  }
+
+  if(props.userID!=="")
+  {
+    addHistory(movieISAN,"USER "+props.userID)
+  }
+
+
+
+function addReview(ISAN,review,rating,user){
+  let data=JSON.stringify({
+      ISAN: ISAN,
+      Review: review,
+      Rating: rating
+  })
+  let config={
+      method: 'post',
+      maxBodyLength: Infinity,
+      headers:{
+          'authorization':user,
+          'Content-Type': 'application/json'
+      },
+      url: 'http://localhost:5000/review/',
+      data: data
+  }
+  axios.request(config)
+      .then((response)=>{
+        console.log(response.data);
+        navigate("/movie/"+movieISAN);
+          return response.data;
+      })
+      .catch((error)=>{
+          console.log(error);
+          return {"status": "error_adding_review"};
+      })
 }
 
+const addToWatchList = () =>
+{
+  addWatchlist(movieISAN,"USER "+props.userID);
+}
 
-  const [value, setValue] = useState(5);
+const submitReview=(event)=>
+{
+  console.log(event.target[6].value);
+  addReview(movieISAN,event.target[6].value,value,"USER "+props.userID)
+  event.preventDefault();
+}
+
+  console.log(movie);
+
   return(
     <> 
       <Header
         isAuthenticated={props.isAuthenticated}
         setIsAuthenticated={props.setIsAuthenticated}
+        isAdmin={props.isAdmin}
         setIsAdmin={props.setIsAdmin}
         setUserID={props.setUserID}
       />
       <img src={movie.poster} alt="" className="absolute bd h-[590px] object-cover top-[0px]"/>
-      <div className="grid h-[450px] w-full grid-rows-5 grid-cols-12 grid-flow-col gap-4 mb-3 text-white"  >
+      <div className="grid h-[450px] w-full grid-rows-5 grid-cols-12 grid-flow-col gap-4 mb-3 lg:ml-10 mt-4 text-white"  >
         <div className="row-span-5 col-span-4 sm:col-span-3 xl:col-span-2 p-2 flex items-start justify-center">
           <img src={movie.poster} alt="poster" className="z-10"/>
         </div>
@@ -198,8 +243,8 @@ const addToWatchList = () =>
         <div className="row-span-4 col-span-8 sm:col-span-5 xl:col-span-7 p-2 relative text-start mt-2">
           <div className='overflow-y-auto font-light'>{movie.description}</div>
           <div className='absolute bottom-3 flex row  justify-center w-full p-2 text-xs'>
-          <a href={movie.trailer}><button className="w-[200px] text-center bg-red-600 p-3 rounded-full hover:scale-105 hover:border hover:border-1 hover:border-red-700 hover:bg-transparent hover:text-red-600 mx-1 text-black transition ease-in-out duration-300" size="small" href={movie.trailer}>WATCH TRAILER</button></a>
-            <button onClick={addToWatchList} className="w-[200px] rounded-full hover:scale-105 border border-1 border-red-600 mx-1 text-red-600 font-semibold transition ease-in-out duration-300" size="small">Add to List</button>
+            <a href={movie.trailer}><button className=" text-center bg-red-600 p-3 rounded-full hover:scale-105 hover:border hover:border-1 hover:border-red-700 hover:bg-transparent hover:text-red-600 mx-1 text-black transition ease-in-out duration-300" size="small" href={movie.trailer}>WATCH TRAILER</button></a>
+            <button onClick={addToWatchList} className="rounded-full  p-3 hover:scale-105 border border-1 border-red-600 mx-1 text-red-600 font-semibold transition ease-in-out duration-300" size="small">Add to List</button>
           </div>
         </div>
 
@@ -225,11 +270,11 @@ const addToWatchList = () =>
       </div>
 
       {/* reviews */}
-      <br />
+      {props.isAuthenticated?<div><br />
       <Divider>Add Your Reviews</Divider> 
       
-      <div className="text-gray-400 z-100 flex flex-col items-center m-5">
-        <Typography component="legend">Reviewing as: $User</Typography>
+      <form onSubmit={submitReview} className="text-gray-400 z-100 flex flex-col items-center m-5">
+        <Typography component="legend">Submit your review</Typography>
         <Rating
           name="simple-controlled"
           value={value}
@@ -240,8 +285,8 @@ const addToWatchList = () =>
         />
         <textarea name="" id="" cols="40" rows="5" className='bg-gblack border border-spacing-1 border-gray-400 rounded-lg shadow m-5 p-3'></textarea>
         <button>Submit</button>
-      </div>
-
+      </form></div>:<></>
+      }
 
 
       <br/>

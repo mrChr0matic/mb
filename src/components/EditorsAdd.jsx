@@ -1,26 +1,61 @@
 import React from "react";
 import Header from "./Header";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+
 
 const CreateMovie = (props)=>
 {
     const navigate=useNavigate();
+    
+    function addEditorsChoice(adminID,ISAN){
+        let data=JSON.stringify({
+            ISAN: ISAN,
+            adminID: adminID
+        })
+        let config={
+            method: 'post',
+            maxBodyLength: Infinity,
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            url: 'http://localhost:5000/editors/',
+            data: data
+        }
+        axios.request(config)
+            .then((response)=>{
+                console.log(response);
+                return response.data;
+            })
+            .catch((error)=>{
+                console.log(error);
+                return [];
+            })
+        }
 
-    if(!props.isAdmin)
-    {
-        navigate("/");
+        const addToEditorsChoice = (event) =>
+        {
+            if(props.isAdmin === false)
+            {
+                navigate("/");
+            }
+            addEditorsChoice("R100",event.target[0].value);
+            event.preventDefault();
     }
+    
     return (
         <div>
-            <Header
-            isAuthenticated={props.isAuthenticated}
-            setIsAuthenticated={props.setIsAuthenticated}
-            setIsAdmin={props.setIsAdmin}
-            />
+        <Header
+          isAuthenticated={props.isAuthenticated}
+          setIsAuthenticated={props.setIsAuthenticated}
+          isAdmin={props.isAdmin}
+          setIsAdmin={props.setIsAdmin}
+          setUserID={props.setUserID}
+        />
             <section class="">
                 <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
                     <h2 class="mb-4 text-3xl font-bold text-gray-900 dark:text-white">Add movie</h2>
-                    <form action="#">
+                    <form action="#" onSubmit={addToEditorsChoice}>
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                             <div class="w-full">
                                 <label for="ISAN" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ISAN</label>
