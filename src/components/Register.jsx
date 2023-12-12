@@ -13,7 +13,7 @@ function registerUser(userName,email,password){
         headers:{
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/user/register/',
+        url: 'https://moviebase-jz8c.onrender.com/user/register/',
         data: data
     };
     axios.request(config)

@@ -13,7 +13,7 @@ function Register(userName,password,email){
         headers:{
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/user/register/',
+        url: 'https://moviebase-jz8c.onrender.com/user/register/',
         data: data
     };
     axios.request(config)
@@ -37,7 +37,7 @@ function userLogin(userName,password){
         headers:{
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/user/login/',
+        url: 'https://moviebase-jz8c.onrender.com/user/login/',
         data: data
     };
     axios.request(config)
@@ -61,7 +61,7 @@ function adminLogin(adminID,password){
         headers:{
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/admin/register/',
+        url: 'https://moviebase-jz8c.onrender.com/admin/register/',
         data: data
     };
     axios.request(config)
@@ -86,7 +86,7 @@ function addWatchlist(ISAN,user){  //user ====> USER <userID>
             'authorization': user,
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/user/watchlist/',
+        url: 'https://moviebase-jz8c.onrender.com/user/watchlist/',
         data: data
     };
     axios.request(config)
@@ -110,7 +110,7 @@ function deleteWatchlist(ISAN,user){
             'authorization': user,
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/user/watchlist/',
+        url: 'https://moviebase-jz8c.onrender.com/user/watchlist/',
         data: data
     };
     axios.request(config)
@@ -134,7 +134,7 @@ function getWatchlist(user){
             'authorization': user,
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/user/watchlist/',
+        url: 'https://moviebase-jz8c.onrender.com/user/watchlist/',
         data: data
     };
     axios.request(config)
@@ -158,7 +158,7 @@ function addHistory(ISAN,user){
             'authorization': user,
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/user/history/',
+        url: 'https://moviebase-jz8c.onrender.com/user/history/',
         data: data
     };
     axios.request(config)
@@ -179,7 +179,7 @@ function getHistory(user){
             'authorization': user,
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/user/history/',
+        url: 'https://moviebase-jz8c.onrender.com/user/history/',
     };
     axios.request(config)
         .then((response)=>{
@@ -203,7 +203,7 @@ function addVerification(userName,value,user){
             'authorization': user,
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/admin/verify/',
+        url: 'https://moviebase-jz8c.onrender.com/admin/verify/',
         data: data
     }
     axios.request(config)
@@ -225,7 +225,7 @@ function getEditorsChoice(adminID,ISAN){
         headers:{
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/editors/find',
+        url: 'https://moviebase-jz8c.onrender.com/editors/find',
     }
     axios.request(config)
         .then((response)=>{
@@ -250,7 +250,7 @@ function addReview(ISAN,review,rating,user){
             'authorization':user,
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/review/',
+        url: 'https://moviebase-jz8c.onrender.com/review/',
         data: data
     }
     axios.request(config)

@@ -16,7 +16,7 @@ const Login = (props)=>
             headers:{
                 'Content-Type': 'application/json'
             },
-            url: 'http://localhost:5000/admin/login/',
+            url: 'https://moviebase-jz8c.onrender.com/admin/login/',
             data: data
         };
         axios.request(config)

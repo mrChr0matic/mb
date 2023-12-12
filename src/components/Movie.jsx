@@ -78,7 +78,7 @@ function addHistory(ISAN,user){
           'authorization': user,
           'Content-Type': 'application/json'
       },
-      url: 'http://localhost:5000/user/history/',
+      url: 'https://moviebase-jz8c.onrender.com/user/history/',
       data: data
   };
   axios.request(config)
@@ -103,7 +103,7 @@ function addWatchlist(ISAN,user){  //user ====> USER <userID>
           'authorization': user,
           'Content-Type': 'application/json'
       },
-      url: 'http://localhost:5000/user/watchlist/',
+      url: 'https://moviebase-jz8c.onrender.com/user/watchlist/',
       data: data
   };
   axios.request(config)
@@ -128,8 +128,8 @@ const ReviewCard= ({review})=>{
     <div className="flex items-center mb-4 relative">
       <Avatar className="" sx={{ bgcolor: red[500] }}>{review.user.userName[0]}</Avatar>
       <div className="inline-block m-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{review.user.userName}</div>
-      <div className="inline-block m-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white absolute right-0">{review.Rating}/10</div>
-      <div className='p-0 m-0 flex items-center justify-center absolute right-20'><StyledRating name="read-only" value={review.Rating/2} className="text-red-600" readOnly precision={0.1}/></div>
+      <div className="inline-block m-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white absolute right-0">{review.Rating*2}/10</div>
+      <div className='p-0 m-0 flex items-center justify-center absolute right-20'><StyledRating name="read-only" value={review.Rating} className="text-red-600" readOnly precision={0.1}/></div>
       
     </div>
     <p className="text-sm text-gray-400">{review.Review}</p>
@@ -147,7 +147,7 @@ const [value, setValue] = useState(5);
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'http://localhost:5000/movies/find/'+ISAN,
+        url: 'https://moviebase-jz8c.onrender.com/movies/find/'+ISAN,
     };
     axios.request(config)
         .then((response) => {
@@ -187,7 +187,7 @@ function addReview(ISAN,review,rating,user){
           'authorization':user,
           'Content-Type': 'application/json'
       },
-      url: 'http://localhost:5000/review/',
+      url: 'https://moviebase-jz8c.onrender.com/review/',
       data: data
   }
   axios.request(config)

@@ -11,7 +11,7 @@ async function addMovie(values,user){
     let config={
         method: 'post',
         maxBodyLength:Infinity,
-        url: 'http://localhost:5000/movies/',
+        url: 'https://moviebase-jz8c.onrender.com/movies/',
         headers:{
             'authorization': user,
             'Content-Type': 'application/json'

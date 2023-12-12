@@ -14,7 +14,7 @@ const DeleteMovie = (props)=>
         let config={
             method:'delete',
             maxBodyLength:Infinity,
-            url: 'http://localhost:5000/movies/',
+            url: 'https://moviebase-jz8c.onrender.com/movies/',
             headers:{
                 'authorization': user,
                 'Content-Type': 'application/json'

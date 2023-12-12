@@ -19,7 +19,7 @@ const CreateMovie = (props)=>
             headers:{
                 'Content-Type': 'application/json'
             },
-            url: 'http://localhost:5000/editors/',
+            url: 'https://moviebase-jz8c.onrender.com/editors/',
             data: data
         }
         axios.request(config)

@@ -14,7 +14,7 @@ function addVerification(userName,value,user){
             'authorization': user,
             'Content-Type': 'application/json'
         },
-        url: 'http://localhost:5000/admin/verify/',
+        url: 'https://moviebase-jz8c.onrender.com/admin/verify/',
         data: data
     }
     axios.request(config)
